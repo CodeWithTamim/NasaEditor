@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/white"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="10dp"
+        app:strokeColor="@color/card_stroke">
+
+        <EditText
+            android:id="@+id/edtJavaScript"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="start"
+            android:textColor="@color/card_stroke"
+            android:hint="@string/js_code_goes_here"
+            android:padding="10dp" />
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>

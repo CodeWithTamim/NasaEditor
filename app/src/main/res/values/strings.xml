@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Nasa Editor</string>
+    <string name="run">Run</string>
+    <string name="javascript">JavaScript</string>
+    <string name="css">Css</string>
+    <string name="html">Html</string>
+    <string name="html_code_goes_here">Html code goes here</string>
+    <string name="js_code_goes_here">Js code goes here</string>
+    <string name="css_code_goes_here">Css code goes here</string>
+</resources>
