@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nasahacker.nasaeditor.util.FileUtils
+import com.nasahacker.nasaeditor.util.FileUtils.createProject
+import com.nasahacker.nasaeditor.view.widget.CodeEditorView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -38,8 +40,14 @@ class EditorViewModel : ViewModel() {
 
     fun updateFile(context: Context, projectName: String, fileName: String, newContent: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            FileUtils.updateFile(context, projectName, fileName, newContent)
+            val projectFolder = createProject(context, projectName)
+            val file = File(projectFolder, fileName)
+
+
             loadProjectFiles(context, projectName)
+            if (FileUtils.fileExists(file)) {
+                FileUtils.updateFile(context, projectName, fileName, newContent)
+            }
         }
     }
 
@@ -48,6 +56,12 @@ class EditorViewModel : ViewModel() {
             FileUtils.deleteFile(context, projectName, fileName)
             loadProjectFiles(context, projectName)
             loadFileContent(context, projectName, fileName)
+        }
+    }
+
+    fun setTheme(context: Context, codeView: CodeEditorView, theme: CodeEditorView.Theme) {
+        viewModelScope.launch(Dispatchers.Main) {
+            codeView.setTheme(context, theme)
         }
     }
 

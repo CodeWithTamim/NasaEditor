@@ -38,16 +38,32 @@ class CodeEditorView : AppCompatEditText {
         init(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    ) {
         init(context)
     }
 
     private fun init(context: Context) {
         setThemeColors(context, currentTheme)
         addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
+            }
 
-            override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(
+                charSequence: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+            }
 
             override fun afterTextChanged(editable: Editable) {
                 highlightSyntax(editable)
@@ -70,6 +86,7 @@ class CodeEditorView : AppCompatEditText {
         numberColor = getColorForTheme(context, theme, NUMBER_TYPE)
         commentColor = getColorForTheme(context, theme, COMMENT_TYPE)
     }
+
     private fun getColorForTheme(context: Context, theme: Theme, colorType: String): Int {
         val colorResId = when (theme) {
             Theme.DRACULA -> when (colorType) {
@@ -82,6 +99,7 @@ class CodeEditorView : AppCompatEditText {
                 COMMENT_TYPE -> R.color.dracula_comment
                 else -> R.color.black // Default fallback
             }
+
             Theme.VS_CODE -> when (colorType) {
                 HTML_TAG -> R.color.vs_code_html_tag
                 CSS_PROPERTY -> R.color.vs_code_css_property
@@ -92,6 +110,7 @@ class CodeEditorView : AppCompatEditText {
                 COMMENT_TYPE -> R.color.vs_code_comment
                 else -> R.color.black // Default fallback
             }
+
             Theme.MONOKAI -> when (colorType) {
                 HTML_TAG -> R.color.monokai_html_tag
                 CSS_PROPERTY -> R.color.monokai_css_property
@@ -102,6 +121,7 @@ class CodeEditorView : AppCompatEditText {
                 COMMENT_TYPE -> R.color.monokai_comment
                 else -> R.color.black // Default fallback
             }
+
             Theme.SOLARIZED_DARK -> when (colorType) {
                 HTML_TAG -> R.color.solarized_dark_html_tag
                 CSS_PROPERTY -> R.color.solarized_dark_css_property
@@ -112,6 +132,7 @@ class CodeEditorView : AppCompatEditText {
                 COMMENT_TYPE -> R.color.solarized_dark_comment
                 else -> R.color.black // Default fallback
             }
+
             Theme.SOLARIZED_LIGHT -> when (colorType) {
                 HTML_TAG -> R.color.solarized_light_html_tag
                 CSS_PROPERTY -> R.color.solarized_light_css_property
@@ -122,6 +143,7 @@ class CodeEditorView : AppCompatEditText {
                 COMMENT_TYPE -> R.color.solarized_light_comment
                 else -> R.color.black // Default fallback
             }
+
             Theme.OCEANIC_NEXT -> when (colorType) {
                 HTML_TAG -> R.color.oceanic_next_html_tag
                 CSS_PROPERTY -> R.color.oceanic_next_css_property
@@ -141,16 +163,114 @@ class CodeEditorView : AppCompatEditText {
 
         // HTML tags
         val htmlTags = arrayOf(
-            "html", "head", "body", "div", "span", "h1", "h2", "h3", "h4", "h5", "h6", "p", "a",
-            "img", "ul", "ol", "li", "table", "tr", "td", "th", "form", "input", "button", "label",
-            "meta", "link", "title", "script", "style", "footer", "header", "nav", "section", "article",
-            "aside", "details", "summary", "blockquote", "cite", "code", "pre", "em", "strong", "small",
-            "sub", "sup", "abbr", "address", "b", "i", "u", "q", "del", "ins", "kbd", "s", "mark",
-            "figure", "figcaption", "audio", "video", "source", "track", "canvas", "svg", "iframe",
-            "object", "embed", "param", "map", "area", "time", "progress", "meter", "output", "select",
-            "option", "optgroup", "textarea", "fieldset", "legend", "datalist", "keygen", "wbr", "br",
-            "hr", "base", "col", "colgroup", "caption", "thead", "tbody", "tfoot", "bdo", "bdi", "ruby",
-            "rt", "rp", "data", "main", "picture", "source", "template", "slot", "summary", "menu", "menuitem"
+            "html",
+            "head",
+            "body",
+            "div",
+            "span",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "p",
+            "a",
+            "img",
+            "ul",
+            "ol",
+            "li",
+            "table",
+            "tr",
+            "td",
+            "th",
+            "form",
+            "input",
+            "button",
+            "label",
+            "meta",
+            "link",
+            "title",
+            "script",
+            "style",
+            "footer",
+            "header",
+            "nav",
+            "section",
+            "article",
+            "aside",
+            "details",
+            "summary",
+            "blockquote",
+            "cite",
+            "code",
+            "pre",
+            "em",
+            "strong",
+            "small",
+            "sub",
+            "sup",
+            "abbr",
+            "address",
+            "b",
+            "i",
+            "u",
+            "q",
+            "del",
+            "ins",
+            "kbd",
+            "s",
+            "mark",
+            "figure",
+            "figcaption",
+            "audio",
+            "video",
+            "source",
+            "track",
+            "canvas",
+            "svg",
+            "iframe",
+            "object",
+            "embed",
+            "param",
+            "map",
+            "area",
+            "time",
+            "progress",
+            "meter",
+            "output",
+            "select",
+            "option",
+            "optgroup",
+            "textarea",
+            "fieldset",
+            "legend",
+            "datalist",
+            "keygen",
+            "wbr",
+            "br",
+            "hr",
+            "base",
+            "col",
+            "colgroup",
+            "caption",
+            "thead",
+            "tbody",
+            "tfoot",
+            "bdo",
+            "bdi",
+            "ruby",
+            "rt",
+            "rp",
+            "data",
+            "main",
+            "picture",
+            "source",
+            "template",
+            "slot",
+            "summary",
+            "menu",
+            "menuitem"
         )
 
         for (tag in htmlTags) {
@@ -159,40 +279,185 @@ class CodeEditorView : AppCompatEditText {
 
         // CSS properties and values
         val cssProperties = arrayOf(
-            "color", "background-color", "background-image", "background-position", "background-size",
-            "background-repeat", "background-attachment", "background-origin", "background-clip",
-            "border", "border-color", "border-width", "border-style", "border-radius", "border-top",
-            "border-right", "border-bottom", "border-left", "border-top-color", "border-right-color",
-            "border-bottom-color", "border-left-color", "border-top-width", "border-right-width",
-            "border-bottom-width", "border-left-width", "border-top-style", "border-right-style",
-            "border-bottom-style", "border-left-style", "padding", "padding-top", "padding-right",
-            "padding-bottom", "padding-left", "margin", "margin-top", "margin-right", "margin-bottom",
-            "margin-left", "width", "height", "max-width", "min-width", "max-height", "min-height",
-            "font", "font-family", "font-size", "font-weight", "font-style", "font-variant",
-            "font-size-adjust", "font-stretch", "line-height", "letter-spacing", "word-spacing",
-            "text-align", "text-decoration", "text-transform", "text-indent", "text-shadow",
-            "text-overflow", "white-space", "word-break", "word-wrap", "overflow", "overflow-x",
-            "overflow-y", "display", "visibility", "position", "top", "right", "bottom", "left",
-            "z-index", "float", "clear", "clip", "content", "counter-increment", "counter-reset",
-            "cursor", "direction", "flex", "flex-basis", "flex-direction", "flex-flow", "flex-grow",
-            "flex-shrink", "flex-wrap", "justify-content", "align-items", "align-self", "align-content",
-            "order", "grid", "grid-area", "grid-template", "grid-template-rows", "grid-template-columns",
-            "grid-template-areas", "grid-auto-rows", "grid-auto-columns", "grid-auto-flow", "grid-gap",
-            "grid-row", "grid-column", "grid-row-start", "grid-row-end", "grid-column-start",
-            "grid-column-end", "gap", "row-gap", "column-gap", "align-items", "justify-items",
-            "align-content", "justify-content", "transform", "transform-origin", "transition",
-            "transition-delay", "transition-duration", "transition-property", "transition-timing-function",
-            "animation", "animation-name", "animation-duration", "animation-timing-function",
-            "animation-delay", "animation-iteration-count", "animation-direction", "animation-fill-mode",
-            "animation-play-state", "backface-visibility", "box-shadow", "box-sizing", "resize",
-            "object-fit", "object-position", "opacity", "outline", "outline-color", "outline-style",
-            "outline-width", "outline-offset", "overflow-wrap", "perspective", "perspective-origin",
-            "pointer-events", "quotes", "scroll-behavior", "scroll-snap-align", "scroll-snap-stop",
-            "scroll-snap-type", "tab-size", "table-layout", "text-align-last", "text-combine-upright",
-            "text-decoration-color", "text-decoration-line", "text-decoration-style", "text-decoration-skip",
-            "text-emphasis", "text-emphasis-color", "text-emphasis-position", "text-emphasis-style",
-            "text-orientation", "text-rendering", "text-shadow", "text-size-adjust", "text-underline-position",
-            "unicode-bidi", "user-select", "vertical-align", "writing-mode", "zoom"
+            "color",
+            "background-color",
+            "background-image",
+            "background-position",
+            "background-size",
+            "background-repeat",
+            "background-attachment",
+            "background-origin",
+            "background-clip",
+            "border",
+            "border-color",
+            "border-width",
+            "border-style",
+            "border-radius",
+            "border-top",
+            "border-right",
+            "border-bottom",
+            "border-left",
+            "border-top-color",
+            "border-right-color",
+            "border-bottom-color",
+            "border-left-color",
+            "border-top-width",
+            "border-right-width",
+            "border-bottom-width",
+            "border-left-width",
+            "border-top-style",
+            "border-right-style",
+            "border-bottom-style",
+            "border-left-style",
+            "padding",
+            "padding-top",
+            "padding-right",
+            "padding-bottom",
+            "padding-left",
+            "margin",
+            "margin-top",
+            "margin-right",
+            "margin-bottom",
+            "margin-left",
+            "width",
+            "height",
+            "max-width",
+            "min-width",
+            "max-height",
+            "min-height",
+            "font",
+            "font-family",
+            "font-size",
+            "font-weight",
+            "font-style",
+            "font-variant",
+            "font-size-adjust",
+            "font-stretch",
+            "line-height",
+            "letter-spacing",
+            "word-spacing",
+            "text-align",
+            "text-decoration",
+            "text-transform",
+            "text-indent",
+            "text-shadow",
+            "text-overflow",
+            "white-space",
+            "word-break",
+            "word-wrap",
+            "overflow",
+            "overflow-x",
+            "overflow-y",
+            "display",
+            "visibility",
+            "position",
+            "top",
+            "right",
+            "bottom",
+            "left",
+            "z-index",
+            "float",
+            "clear",
+            "clip",
+            "content",
+            "counter-increment",
+            "counter-reset",
+            "cursor",
+            "direction",
+            "flex",
+            "flex-basis",
+            "flex-direction",
+            "flex-flow",
+            "flex-grow",
+            "flex-shrink",
+            "flex-wrap",
+            "justify-content",
+            "align-items",
+            "align-self",
+            "align-content",
+            "order",
+            "grid",
+            "grid-area",
+            "grid-template",
+            "grid-template-rows",
+            "grid-template-columns",
+            "grid-template-areas",
+            "grid-auto-rows",
+            "grid-auto-columns",
+            "grid-auto-flow",
+            "grid-gap",
+            "grid-row",
+            "grid-column",
+            "grid-row-start",
+            "grid-row-end",
+            "grid-column-start",
+            "grid-column-end",
+            "gap",
+            "row-gap",
+            "column-gap",
+            "align-items",
+            "justify-items",
+            "align-content",
+            "justify-content",
+            "transform",
+            "transform-origin",
+            "transition",
+            "transition-delay",
+            "transition-duration",
+            "transition-property",
+            "transition-timing-function",
+            "animation",
+            "animation-name",
+            "animation-duration",
+            "animation-timing-function",
+            "animation-delay",
+            "animation-iteration-count",
+            "animation-direction",
+            "animation-fill-mode",
+            "animation-play-state",
+            "backface-visibility",
+            "box-shadow",
+            "box-sizing",
+            "resize",
+            "object-fit",
+            "object-position",
+            "opacity",
+            "outline",
+            "outline-color",
+            "outline-style",
+            "outline-width",
+            "outline-offset",
+            "overflow-wrap",
+            "perspective",
+            "perspective-origin",
+            "pointer-events",
+            "quotes",
+            "scroll-behavior",
+            "scroll-snap-align",
+            "scroll-snap-stop",
+            "scroll-snap-type",
+            "tab-size",
+            "table-layout",
+            "text-align-last",
+            "text-combine-upright",
+            "text-decoration-color",
+            "text-decoration-line",
+            "text-decoration-style",
+            "text-decoration-skip",
+            "text-emphasis",
+            "text-emphasis-color",
+            "text-emphasis-position",
+            "text-emphasis-style",
+            "text-orientation",
+            "text-rendering",
+            "text-shadow",
+            "text-size-adjust",
+            "text-underline-position",
+            "unicode-bidi",
+            "user-select",
+            "vertical-align",
+            "writing-mode",
+            "zoom"
         )
 
         for (property in cssProperties) {
@@ -201,7 +466,10 @@ class CodeEditorView : AppCompatEditText {
 
         // CSS values like hex colors, numbers with units, etc.
         val cssValues = arrayOf(
-            "#[0-9a-fA-F]{3,6}", "\\b[0-9]+(px|em|rem|%)?\\b", "rgba?\\([^\\)]*\\)", "url\\([^\\)]*\\)"
+            "#[0-9a-fA-F]{3,6}",
+            "\\b[0-9]+(px|em|rem|%)?\\b",
+            "rgba?\\([^\\)]*\\)",
+            "url\\([^\\)]*\\)"
         )
         for (value in cssValues) {
             highlightPattern(editable, value, cssValueColor)
@@ -209,20 +477,131 @@ class CodeEditorView : AppCompatEditText {
 
         // JavaScript keywords
         val jsKeywords = arrayOf(
-            "var", "let", "const", "function", "if", "else", "for", "while", "do", "return",
-            "true", "false", "null", "undefined", "new", "this", "class", "constructor", "extends",
-            "super", "import", "export", "default", "from", "as", "in", "of", "with", "try", "catch",
-            "finally", "throw", "switch", "case", "break", "default", "continue", "debugger", "delete",
-            "typeof", "instanceof", "void", "yield", "await", "async", "static", "get", "set", "implements",
-            "interface", "package", "private", "protected", "public", "enum", "abstract", "volatile",
-            "synchronized", "goto", "native", "strictfp", "transient", "assert", "boolean", "byte", "char",
-            "double", "final", "float", "int", "long", "short", "boolean", "extends", "import", "enum",
-            "interface", "package", "private", "protected", "public", "await", "async", "super", "arguments",
-            "document", "window", "console", "alert", "prompt", "confirm", "eval", "isNaN", "isFinite",
-            "parseInt", "parseFloat", "decodeURI", "decodeURIComponent", "encodeURI", "encodeURIComponent",
-            "escape", "unescape", "Math", "Date", "RegExp", "String", "Number", "Boolean", "Object",
-            "Array", "Function", "Map", "Set", "WeakMap", "WeakSet", "Symbol", "Error", "EvalError",
-            "RangeError", "ReferenceError", "SyntaxError", "TypeError", "URIError", "JSON", "NaN",
+            "var",
+            "let",
+            "const",
+            "function",
+            "if",
+            "else",
+            "for",
+            "while",
+            "do",
+            "return",
+            "true",
+            "false",
+            "null",
+            "undefined",
+            "new",
+            "this",
+            "class",
+            "constructor",
+            "extends",
+            "super",
+            "import",
+            "export",
+            "default",
+            "from",
+            "as",
+            "in",
+            "of",
+            "with",
+            "try",
+            "catch",
+            "finally",
+            "throw",
+            "switch",
+            "case",
+            "break",
+            "default",
+            "continue",
+            "debugger",
+            "delete",
+            "typeof",
+            "instanceof",
+            "void",
+            "yield",
+            "await",
+            "async",
+            "static",
+            "get",
+            "set",
+            "implements",
+            "interface",
+            "package",
+            "private",
+            "protected",
+            "public",
+            "enum",
+            "abstract",
+            "volatile",
+            "synchronized",
+            "goto",
+            "native",
+            "strictfp",
+            "transient",
+            "assert",
+            "boolean",
+            "byte",
+            "char",
+            "double",
+            "final",
+            "float",
+            "int",
+            "long",
+            "short",
+            "boolean",
+            "extends",
+            "import",
+            "enum",
+            "interface",
+            "package",
+            "private",
+            "protected",
+            "public",
+            "await",
+            "async",
+            "super",
+            "arguments",
+            "document",
+            "window",
+            "console",
+            "alert",
+            "prompt",
+            "confirm",
+            "eval",
+            "isNaN",
+            "isFinite",
+            "parseInt",
+            "parseFloat",
+            "decodeURI",
+            "decodeURIComponent",
+            "encodeURI",
+            "encodeURIComponent",
+            "escape",
+            "unescape",
+            "Math",
+            "Date",
+            "RegExp",
+            "String",
+            "Number",
+            "Boolean",
+            "Object",
+            "Array",
+            "Function",
+            "Map",
+            "Set",
+            "WeakMap",
+            "WeakSet",
+            "Symbol",
+            "Error",
+            "EvalError",
+            "RangeError",
+            "ReferenceError",
+            "SyntaxError",
+            "TypeError",
+            "URIError",
+            "JSON",
+            "NaN",
             "Infinity"
         )
 
@@ -260,6 +639,11 @@ class CodeEditorView : AppCompatEditText {
             editable.removeSpan(span)
         }
     }
+
+    fun getCurrentTheme(): CodeEditorView.Theme {
+        return currentTheme
+    }
+
 
     enum class Theme {
         DRACULA,

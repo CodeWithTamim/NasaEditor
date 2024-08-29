@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             app:hintTextColor="@color/white"
             android:textColorHint="@color/white"
+            app:cursorColor="@color/white"
             app:boxStrokeColor="@color/white"
             android:layout_margin="10dp">
 

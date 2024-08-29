@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:text="File Name"
         android:id="@+id/tv_fileName"
+        android:textColor="@color/white"
         android:layout_gravity="center"
         />
 

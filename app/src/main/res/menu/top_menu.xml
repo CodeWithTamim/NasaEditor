@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/top_themes"
+        android:contentDescription="@string/label_themes"
+        android:icon="@drawable/baseline_color_lens_24"
+        android:title="@string/label_themes"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/top_files"
+        android:contentDescription="@string/label_file_explorer"
+        android:icon="@drawable/baseline_folder_24"
+        android:title="@string/label_file_explorer"
+        app:showAsAction="always" />
+
+</menu>
