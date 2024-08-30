@@ -3,9 +3,11 @@ package com.nasahacker.nasaeditor.util
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import android.provider.OpenableColumns
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -111,6 +113,49 @@ object FileUtils {
         val file = File(projectFolder, fileName)
         writeToFile(file, newContent)
     }
+
+    fun openFilePicker(activity: Activity, requestCode: Int) {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*" // Allow any file type
+            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/*", "video/*", "audio/*"))
+        }
+        activity.startActivityForResult(intent, requestCode)
+    }
+
+
+    fun copyFileToProjectFolder(context: Context, uri: Uri, projectName: String, fileName: String) {
+        val projectFolder = FileUtils.createProject(context, projectName)
+        val destinationFile = File(projectFolder, fileName)
+
+        val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
+        val outputStream = FileOutputStream(destinationFile)
+        val buffer = ByteArray(1024)
+        var length: Int
+
+        if (inputStream != null) {
+            while (inputStream.read(buffer).also { length = it } > 0) {
+                outputStream.write(buffer, 0, length)
+            }
+
+            outputStream.flush()
+            outputStream.close()
+            inputStream.close()
+        }
+    }
+
+
+    fun getFileNameFromUri(context: Context,uri: Uri): String {
+        var fileName = "unknown"
+        val cursor = context.contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                fileName = it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+            }
+        }
+        return fileName
+    }
+
 
     fun deleteFile(context: Context, projectName: String, fileName: String): Boolean {
         val file = File(createProject(context, projectName), fileName)

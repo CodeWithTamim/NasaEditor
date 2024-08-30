@@ -13,4 +13,13 @@
     <string name="label_please_select_a_file_to_preview">Please select a file to preview</string>
     <string name="label_file_explorer">File explorer</string>
     <string name="label_themes">Themes</string>
+    <string name="label_welcome_to_nasa_editor">Welcome to Nasa Editor</string>
+    <string name="label_create_a_project_or_open_an_existing_one_to_get_started">Create a project or open an existing one to get started</string>
+    <string name="label_no_projects_found">No Projects found</string>
+    <string name="label_existing_projects">Existing Projects</string>
+    <string name="label_create">Create</string>
+    <string name="label_start_writing_your_code">Start writing your code</string>
+    <string name="label_preview">Preview</string>
+    <string name="label_choose_theme">Choose Theme</string>
+    <string name="label_set">Set</string>
 </resources>

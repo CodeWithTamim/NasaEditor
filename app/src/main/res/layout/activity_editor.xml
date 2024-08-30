@@ -31,7 +31,7 @@
             android:layout_height="0dp"
             android:background="@null"
             android:gravity="top"
-            android:hint="Start writing your code"
+            android:hint="@string/label_start_writing_your_code"
             android:padding="15dp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:layout_marginEnd="20dp"
-            android:text="Preview"
+            android:text="@string/label_preview"
             android:textColor="@color/black"
             app:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -83,9 +83,18 @@
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center"
                     android:layout_margin="10dp"
-                    android:text="File Explorer"
+                    android:text="@string/label_file_explorer"
                     android:textColor="@color/white" />
-
+                <ImageView
+                    android:id="@+id/addAsset"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center"
+                    android:layout_toStartOf="@id/addFile"
+                    android:layout_margin="10dp"
+                    android:visibility="gone"
+                    android:src="@drawable/file_ic" />
                 <ImageView
                     android:id="@+id/addFile"
                     android:layout_width="wrap_content"

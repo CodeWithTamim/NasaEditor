@@ -1,8 +1,10 @@
 package com.nasahacker.nasaeditor.view.activity
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -22,6 +24,8 @@ import com.nasahacker.nasaeditor.listener.OnClickListener
 import com.nasahacker.nasaeditor.util.Constants.FILE_URI
 import com.nasahacker.nasaeditor.util.Constants.PROJECT_NAME
 import com.nasahacker.nasaeditor.util.FileUtils
+import com.nasahacker.nasaeditor.util.FileUtils.copyFileToProjectFolder
+import com.nasahacker.nasaeditor.util.FileUtils.getFileNameFromUri
 import com.nasahacker.nasaeditor.view.widget.CodeEditorView
 import com.nasahacker.nasaeditor.viewmodel.EditorViewModel
 
@@ -74,7 +78,9 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
         binding.btnPreview.setOnClickListener { previewFile() }
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
         binding.edtCode.setTheme(this, CodeEditorView.Theme.VS_CODE)
-
+        binding.addAsset.setOnClickListener {
+            FileUtils.openFilePicker(this,2)
+        }
 
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
@@ -135,17 +141,17 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
         val currentIndex = themes.indexOf(currentThemeName)
 
         MaterialAlertDialogBuilder(this)
-            .setTitle("Choose Theme")
+            .setTitle(getString(R.string.label_choose_theme))
             .setSingleChoiceItems(themes, currentIndex) { dialog, which ->
                 // Update the selected theme based on the user's choice
                 selectedTheme = themeMap[themes[which]] ?: CodeEditorView.Theme.VS_CODE
             }
-            .setPositiveButton("Set") { dialog, _ ->
+            .setPositiveButton(getString(R.string.label_set)) { dialog, _ ->
                 // Apply the selected theme
                 editorViewModel.setTheme(this@EditorActivity, binding.edtCode, selectedTheme)
                 dialog.dismiss()
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(getString(R.string.label_cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
@@ -243,6 +249,8 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
             .setMessage(getString(R.string.label_are_you_sure_you_want_to_delete, data))
             .setPositiveButton(getString(R.string.label_delete)) { dialog, _ ->
                 projectName?.let {
+                    currentFile = ""
+                    binding.edtCode.setText("")
                     editorViewModel.deleteFile(this, it, data)
                 }
                 dialog.dismiss()
@@ -256,4 +264,29 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
         inflater.inflate(R.menu.top_menu, menu)
         return true
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            val uri: Uri? = data.data
+            if (uri != null) {
+                val mimeType = contentResolver.getType(uri)
+                if (mimeType?.startsWith("image/") == true || mimeType?.startsWith("video/") == true || mimeType?.startsWith(
+                        "audio/"
+                    ) == true
+                ) {
+                    val fileName = getFileNameFromUri(this@EditorActivity, uri)
+                    copyFileToProjectFolder(this, uri, projectName!!, fileName)
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Invalid file type. Please select an image, video, or audio file.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
 }

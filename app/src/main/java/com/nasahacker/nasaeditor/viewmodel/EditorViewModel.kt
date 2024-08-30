@@ -45,7 +45,7 @@ class EditorViewModel : ViewModel() {
 
 
             loadProjectFiles(context, projectName)
-            if (FileUtils.fileExists(file)) {
+            if (fileName.isNotEmpty() && FileUtils.fileExists(file)) {
                 FileUtils.updateFile(context, projectName, fileName, newContent)
             }
         }

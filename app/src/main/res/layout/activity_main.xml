@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="8dp"
-        android:text="Welcome to Nasa Editor"
+        android:text="@string/label_welcome_to_nasa_editor"
         android:textColor="@color/white"
         android:textSize="26sp"
         android:textStyle="bold" />
@@ -32,7 +32,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="24dp"
-        android:text="Create a project or open an existing one to get started"
+        android:text="@string/label_create_a_project_or_open_an_existing_one_to_get_started"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
@@ -50,7 +50,7 @@
         android:id="@+id/tv_noProjects"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No Projects found"
+        android:text="@string/label_no_projects_found"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:layout_below="@id/anim_not_found"
@@ -68,7 +68,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="8dp"
-        android:text="Existing Projects"
+        android:text="@string/label_existing_projects"
         android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -93,7 +93,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:text="Create"
+        android:text="@string/label_create"
         android:textColor="@color/black"
         app:backgroundTint="@color/white"
         app:icon="@drawable/baseline_add_24"
