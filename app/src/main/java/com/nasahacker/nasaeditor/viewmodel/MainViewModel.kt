@@ -28,8 +28,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun addProject(projectName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            FileUtils.createProject(getApplication(), projectName)
-            _projectNames.postValue(_projectNames.value?.apply { add(projectName) })
+            try {
+                FileUtils.createProject(getApplication(), projectName)
+                _projectNames.postValue(_projectNames.value?.apply { add(projectName) })
+            } catch (e: Exception) {
+                //IDK
+            }
+
         }
     }
 

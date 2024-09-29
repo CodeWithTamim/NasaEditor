@@ -5,8 +5,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
     <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:src="@drawable/file_ic"
         android:layout_margin="10dp"
         android:id="@+id/iv_file_icon"

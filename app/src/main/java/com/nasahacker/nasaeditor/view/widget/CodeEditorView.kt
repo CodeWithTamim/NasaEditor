@@ -74,8 +74,14 @@ class CodeEditorView : AppCompatEditText {
     fun setTheme(context: Context, theme: Theme) {
         currentTheme = theme
         setThemeColors(context, theme)
+        // Re-apply syntax highlighting with the new theme
+        val text = text // Save the current text
+        text?.let {
+            highlightSyntax(it)
+        }
         invalidate() // Refresh the view
     }
+
 
     private fun setThemeColors(context: Context, theme: Theme) {
         htmlTagColor = getColorForTheme(context, theme, HTML_TAG)
@@ -640,10 +646,9 @@ class CodeEditorView : AppCompatEditText {
         }
     }
 
-    fun getCurrentTheme(): CodeEditorView.Theme {
+    fun getCurrentTheme(): Theme {
         return currentTheme
     }
-
 
     enum class Theme {
         DRACULA,

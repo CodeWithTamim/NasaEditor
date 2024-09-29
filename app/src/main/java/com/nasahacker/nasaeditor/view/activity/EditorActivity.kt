@@ -65,7 +65,7 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
 
     private fun setupObservers() {
         editorViewModel.files.observe(this) { files ->
-            adapter.updateData(files.map { it.name })
+            adapter.updateData(files.map { it })
         }
 
         editorViewModel.file_content.observe(this) { content ->
@@ -79,7 +79,7 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
         binding.edtCode.setTheme(this, CodeEditorView.Theme.VS_CODE)
         binding.addAsset.setOnClickListener {
-            FileUtils.openFilePicker(this,2)
+            FileUtils.openFilePicker(this, 2)
         }
 
         binding.toolbar.setOnMenuItemClickListener {
@@ -267,24 +267,10 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            val uri: Uri? = data.data
-            if (uri != null) {
-                val mimeType = contentResolver.getType(uri)
-                if (mimeType?.startsWith("image/") == true || mimeType?.startsWith("video/") == true || mimeType?.startsWith(
-                        "audio/"
-                    ) == true
-                ) {
-                    val fileName = getFileNameFromUri(this@EditorActivity, uri)
-                    copyFileToProjectFolder(this, uri, projectName!!, fileName)
-                } else {
-                    Toast.makeText(
-                        this,
-                        "Invalid file type. Please select an image, video, or audio file.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                // Get the filename from the URI
+                editorViewModel.copyFile(this@EditorActivity, uri, projectName!!)
             }
         }
     }

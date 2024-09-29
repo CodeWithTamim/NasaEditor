@@ -1,14 +1,19 @@
 package com.nasahacker.nasaeditor.viewmodel
 
 import android.content.Context
+import android.net.Uri
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nasahacker.nasaeditor.util.FileUtils
+import com.nasahacker.nasaeditor.util.FileUtils.copyFileToProjectFolder
 import com.nasahacker.nasaeditor.util.FileUtils.createProject
+import com.nasahacker.nasaeditor.util.FileUtils.getFileNameFromUri
 import com.nasahacker.nasaeditor.view.widget.CodeEditorView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class EditorViewModel : ViewModel() {
@@ -62,6 +67,20 @@ class EditorViewModel : ViewModel() {
     fun setTheme(context: Context, codeView: CodeEditorView, theme: CodeEditorView.Theme) {
         viewModelScope.launch(Dispatchers.Main) {
             codeView.setTheme(context, theme)
+        }
+    }
+
+    fun refresh(context: Context, projectName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            FileUtils.refreshFolder(context, projectName!!)
+        }
+    }
+
+    fun copyFile(context: Context, uri: Uri, projectName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val fileName = getFileNameFromUri(context, uri)
+            copyFileToProjectFolder(context, uri, projectName ?: "", fileName)
+            refresh(context, projectName)
         }
     }
 

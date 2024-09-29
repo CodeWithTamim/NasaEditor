@@ -93,8 +93,8 @@
                     android:layout_gravity="center"
                     android:layout_toStartOf="@id/addFile"
                     android:layout_margin="10dp"
-                    android:visibility="gone"
-                    android:src="@drawable/file_ic" />
+                    android:visibility="visible"
+                    android:src="@drawable/baseline_attachment_24" />
                 <ImageView
                     android:id="@+id/addFile"
                     android:layout_width="wrap_content"

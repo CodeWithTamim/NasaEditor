@@ -5,9 +5,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.provider.OpenableColumns
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -106,6 +109,31 @@ object FileUtils {
             "" // Handle case where file doesn't exist
         }
     }
+    fun refreshFolder(context: Context, projectName: String): Array<File>? {
+        val projectFolder = createProject(context, projectName)
+        return if (projectFolder.exists() && projectFolder.isDirectory) {
+            projectFolder.listFiles() // Returns an array of files in the folder
+        } else {
+            null // Folder doesn't exist
+        }
+    }
+
+    fun getBitmapFromFile(file: File): Bitmap? {
+        return try {
+            BitmapFactory.decodeFile(file.absolutePath)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null // Return null if there's an error
+        }
+    }
+    fun getBitmapFromResource(context: Context, resId: Int): Bitmap? {
+        return try {
+            BitmapFactory.decodeResource(context.resources, resId)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null // Return null if there's an error
+        }
+    }
 
     @Throws(IOException::class)
     fun updateFile(context: Context, projectName: String, fileName: String, newContent: String) {
@@ -125,7 +153,7 @@ object FileUtils {
 
 
     fun copyFileToProjectFolder(context: Context, uri: Uri, projectName: String, fileName: String) {
-        val projectFolder = FileUtils.createProject(context, projectName)
+        val projectFolder = createProject(context, projectName)
         val destinationFile = File(projectFolder, fileName)
 
         val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
@@ -133,14 +161,19 @@ object FileUtils {
         val buffer = ByteArray(1024)
         var length: Int
 
-        if (inputStream != null) {
-            while (inputStream.read(buffer).also { length = it } > 0) {
-                outputStream.write(buffer, 0, length)
+        try {
+            if (inputStream != null) {
+                while (inputStream.read(buffer).also { length = it } > 0) {
+                    outputStream.write(buffer, 0, length)
+                }
             }
-
             outputStream.flush()
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Toast.makeText(context, "Error copying file: ${e.message}", Toast.LENGTH_SHORT).show()
+        } finally {
             outputStream.close()
-            inputStream.close()
+            inputStream?.close()
         }
     }
 

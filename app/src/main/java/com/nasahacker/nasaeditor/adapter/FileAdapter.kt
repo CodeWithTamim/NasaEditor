@@ -37,9 +37,10 @@ import com.nasahacker.nasaeditor.util.Constants.WAV_FILE
 import com.nasahacker.nasaeditor.util.Constants.WEBM_FILE
 import com.nasahacker.nasaeditor.util.Constants.WEBP_FILE
 import com.nasahacker.nasaeditor.util.Constants.WMV_FILE
+import java.io.File
 
 class FileAdapter(
-    private var list: List<String>,
+    private var list: List<File>,
     private val context: Context,
     private val listener: OnClickListener<String>
 ) : Adapter<FileAdapter.FileViewHolder>() {
@@ -58,16 +59,35 @@ class FileAdapter(
 
     override fun onBindViewHolder(holder: FileViewHolder, position: Int) {
         val currentItem = list[position]
-        holder.binding.tvFileName.text = currentItem
-        holder.itemView.setOnClickListener {
-            listener.onClick(holder.binding.tvFileName.text.toString())
+        holder.binding.tvFileName.text = currentItem.name
+
+        // Check if the file is an asset (audio, video, image)
+        if (!isAssetFile(currentItem.name)) {
+            holder.itemView.setOnClickListener {
+                listener.onClick(holder.binding.tvFileName.text.toString())
+            }
+        } else {
+            // If it's an asset file, don't set the click listener
+            holder.itemView.setOnClickListener(null)
         }
+
         holder.itemView.setOnLongClickListener {
             listener.onLongPress(holder.binding.tvFileName.text.toString())
             true
         }
 
-        holder.binding.ivFileIcon.setImageResource(getIconResource(currentItem))
+        holder.binding.ivFileIcon.setImageResource(getIconResource(currentItem.name))
+    }
+
+    private fun isAssetFile(fileName: String): Boolean {
+        return fileName.endsWith(MP4_FILE) || fileName.endsWith(WEBM_FILE) || fileName.endsWith(MKV_FILE) ||
+                fileName.endsWith(FLV_FILE) || fileName.endsWith(AVI_FILE) || fileName.endsWith(MOV_FILE) ||
+                fileName.endsWith(WMV_FILE) || fileName.endsWith(THREE_GP_FILE) || fileName.endsWith(MPEG_FILE) ||
+                fileName.endsWith(MP3_FILE) || fileName.endsWith(WAV_FILE) || fileName.endsWith(OGG_FILE) ||
+                fileName.endsWith(M4A_FILE) || fileName.endsWith(FLAC_FILE) || fileName.endsWith(AAC_FILE) ||
+                fileName.endsWith(PNG_FILE) || fileName.endsWith(JPG_FILE) || fileName.endsWith(JPEG_FILE) ||
+                fileName.endsWith(GIF_FILE) || fileName.endsWith(BMP_FILE) || fileName.endsWith(WEBP_FILE) ||
+                fileName.endsWith(TIFF_FILE) || fileName.endsWith(ICO_FILE)
     }
 
     private fun getIconResource(fileName: String): Int {
@@ -102,8 +122,11 @@ class FileAdapter(
         }
     }
 
-    fun updateData(updatedList: List<String>) {
+    fun updateData(updatedList: List<File>) {
         this.list = updatedList
+        refresh()
+    }
+    private fun refresh() {
         notifyDataSetChanged()
     }
 }
