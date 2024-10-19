@@ -14,7 +14,6 @@
 
 - **Code Editing**: Write and edit HTML, CSS, and JavaScript code effortlessly.
 - **Code Execution**: Preview your code output directly within the app.
-- **No Permissions Required for Use**: Prioritizes user privacy and security with minimal data collection.
 - **Lightweight**: Enjoy a fast and seamless coding experience on your mobile device.
 - **Open Source**: Completely free and open-source.
 
