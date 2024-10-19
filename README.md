@@ -14,9 +14,17 @@
 
 - **Code Editing**: Write and edit HTML, CSS, and JavaScript code effortlessly.
 - **Code Execution**: Preview your code output directly within the app.
-- **No Permissions Required**: Prioritizes user privacy and security with no data collection or permissions.
+- **No Permissions Required for Use**: Prioritizes user privacy and security with minimal data collection.
 - **Lightweight**: Enjoy a fast and seamless coding experience on your mobile device.
 - **Open Source**: Completely free and open-source.
+
+## 📋 Required Permissions
+
+To fully utilize **Nasa Editor**, the following permissions are required:
+
+- **Storage Permission**: To save your code files locally on your device.
+
+Ensure you grant these permissions when prompted to get the best experience.
 
 ## 💡 Why Nasa Editor?
 
