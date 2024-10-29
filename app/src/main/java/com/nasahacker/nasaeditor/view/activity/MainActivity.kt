@@ -15,7 +15,7 @@ import com.nasahacker.nasaeditor.adapter.ProjectAdapter
 import com.nasahacker.nasaeditor.databinding.ActivityMainBinding
 import com.nasahacker.nasaeditor.listener.OnClickListener
 import com.nasahacker.nasaeditor.util.Constants.PROJECT_NAME
-import com.nasahacker.nasaeditor.util.FileUtils
+import com.nasahacker.nasaeditor.util.AppUtils
 import com.nasahacker.nasaeditor.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity(), OnClickListener<String> {
@@ -26,15 +26,14 @@ class MainActivity : AppCompatActivity(), OnClickListener<String> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         adapter = ProjectAdapter(this, emptyList(), this)
         binding.recyclerViewProjects.adapter = adapter
         setupObservers()
         mainViewModel.loadProjectList()
 
         binding.fabAddProject.setOnClickListener {
-            if (!FileUtils.isPermissionGranted(this)) {
-                FileUtils.requestPermission(this)
+            if (!AppUtils.isPermissionGranted(this)) {
+                AppUtils.requestPermission(this)
             } else {
                 showCreateProjectDialog()
             }

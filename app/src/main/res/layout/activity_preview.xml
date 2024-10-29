@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_black"
     android:orientation="vertical"
     tools:context=".view.activity.PreviewActivity">
 
@@ -13,9 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:navigationIcon="@drawable/baseline_arrow_back_24"
-        app:title="Preview"
-        app:titleTextColor="@color/white" />
+        app:title="Preview" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,14 +24,14 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_margin="8dp"
-            android:src="@drawable/file_ic" />
+            android:src="@drawable/file_ic"
+            app:tint="@android:color/transparent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/tv_website_title"
-            android:textColor="@color/white"
             android:text="Website Title" />
     </LinearLayout>
 

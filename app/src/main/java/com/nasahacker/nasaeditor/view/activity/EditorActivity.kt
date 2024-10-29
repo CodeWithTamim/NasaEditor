@@ -2,14 +2,12 @@ package com.nasahacker.nasaeditor.view.activity
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
-import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -23,9 +21,7 @@ import com.nasahacker.nasaeditor.databinding.ActivityEditorBinding
 import com.nasahacker.nasaeditor.listener.OnClickListener
 import com.nasahacker.nasaeditor.util.Constants.FILE_URI
 import com.nasahacker.nasaeditor.util.Constants.PROJECT_NAME
-import com.nasahacker.nasaeditor.util.FileUtils
-import com.nasahacker.nasaeditor.util.FileUtils.copyFileToProjectFolder
-import com.nasahacker.nasaeditor.util.FileUtils.getFileNameFromUri
+import com.nasahacker.nasaeditor.util.AppUtils
 import com.nasahacker.nasaeditor.view.widget.CodeEditorView
 import com.nasahacker.nasaeditor.viewmodel.EditorViewModel
 
@@ -40,7 +36,6 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         initialize()
         setupObservers()
         setupListeners()
@@ -53,15 +48,30 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
             adapter = FileAdapter(emptyList(), this, this)
             binding.rvFiles.adapter = adapter
             setSupportActionBar(binding.toolbar)
+
+            // Enable the back button
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
         } ?: run {
             Toast.makeText(
                 this,
                 getString(R.string.label_project_name_is_missing),
                 Toast.LENGTH_SHORT
             ).show()
-            finish()  // Close the activity if project name is missing
+            finish()
         }
     }
+
+    // Handle the back button click in the toolbar
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressedDispatcher.onBackPressed()  // Perform back action
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
 
     private fun setupObservers() {
         editorViewModel.files.observe(this) { files ->
@@ -79,7 +89,7 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
         binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
         binding.edtCode.setTheme(this, CodeEditorView.Theme.VS_CODE)
         binding.addAsset.setOnClickListener {
-            FileUtils.openFilePicker(this, 2)
+            AppUtils.openFilePicker(this, 2)
         }
 
         binding.toolbar.setOnMenuItemClickListener {
@@ -198,7 +208,7 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
                 ).show()
                 return
             }
-            val fileUri = FileUtils.getFileUri(this, it, currentFile)
+            val fileUri = AppUtils.getFileUri(this, it, currentFile)
             val intent = Intent(this, PreviewActivity::class.java).apply {
                 putExtra(FILE_URI, fileUri.toString())
             }
@@ -269,10 +279,13 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
             data?.data?.let { uri ->
-                // Get the filename from the URI
-                editorViewModel.copyFile(this@EditorActivity, uri, projectName!!)
+                projectName?.let { name ->
+                    editorViewModel.copyFile(this, uri, name)
+                    editorViewModel.loadProjectFiles(this, name) // Reload files after import
+                }
             }
         }
     }
+
 
 }

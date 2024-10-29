@@ -2,18 +2,16 @@ package com.nasahacker.nasaeditor.viewmodel
 
 import android.content.Context
 import android.net.Uri
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nasahacker.nasaeditor.util.FileUtils
-import com.nasahacker.nasaeditor.util.FileUtils.copyFileToProjectFolder
-import com.nasahacker.nasaeditor.util.FileUtils.createProject
-import com.nasahacker.nasaeditor.util.FileUtils.getFileNameFromUri
+import com.nasahacker.nasaeditor.util.AppUtils
+import com.nasahacker.nasaeditor.util.AppUtils.copyFileToProjectFolder
+import com.nasahacker.nasaeditor.util.AppUtils.createProject
+import com.nasahacker.nasaeditor.util.AppUtils.getFileNameFromUri
 import com.nasahacker.nasaeditor.view.widget.CodeEditorView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 
 class EditorViewModel : ViewModel() {
@@ -25,21 +23,21 @@ class EditorViewModel : ViewModel() {
 
     fun loadProjectFiles(context: Context, projectName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _files.postValue(FileUtils.listProjectFiles(context, projectName))
+            _files.postValue(AppUtils.listProjectFiles(context, projectName))
         }
     }
 
 
     fun createFile(context: Context, projectName: String, fileName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            FileUtils.createFile(context, projectName, fileName)
-            _files.postValue(FileUtils.listProjectFiles(context, projectName))
+            AppUtils.createFile(context, projectName, fileName)
+            _files.postValue(AppUtils.listProjectFiles(context, projectName))
         }
     }
 
     fun loadFileContent(context: Context, projectName: String, fileName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _file_content.postValue(FileUtils.readProjectFile(context, projectName, fileName))
+            _file_content.postValue(AppUtils.readProjectFile(context, projectName, fileName))
         }
     }
 
@@ -50,15 +48,15 @@ class EditorViewModel : ViewModel() {
 
 
             loadProjectFiles(context, projectName)
-            if (fileName.isNotEmpty() && FileUtils.fileExists(file)) {
-                FileUtils.updateFile(context, projectName, fileName, newContent)
+            if (fileName.isNotEmpty() && AppUtils.fileExists(file)) {
+                AppUtils.updateFile(context, projectName, fileName, newContent)
             }
         }
     }
 
     fun deleteFile(context: Context, projectName: String, fileName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            FileUtils.deleteFile(context, projectName, fileName)
+            AppUtils.deleteFile(context, projectName, fileName)
             loadProjectFiles(context, projectName)
             loadFileContent(context, projectName, fileName)
         }
@@ -72,17 +70,20 @@ class EditorViewModel : ViewModel() {
 
     fun refresh(context: Context, projectName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            FileUtils.refreshFolder(context, projectName!!)
+            AppUtils.refreshFolder(context, projectName!!)
         }
     }
 
     fun copyFile(context: Context, uri: Uri, projectName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val fileName = getFileNameFromUri(context, uri)
-            copyFileToProjectFolder(context, uri, projectName ?: "", fileName)
-            refresh(context, projectName)
+            copyFileToProjectFolder(context, uri, projectName, fileName)
+
+            // Load project files again to update the list
+            loadProjectFiles(context, projectName)
         }
     }
+
 
 
 }

@@ -19,7 +19,7 @@ import com.nasahacker.nasaeditor.util.Constants.FILE_PROVIDER
 import com.nasahacker.nasaeditor.util.Constants.PROJECTS_FOLDER_NAME
 import java.io.*
 
-object FileUtils {
+object AppUtils {
 
     fun isPermissionGranted(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

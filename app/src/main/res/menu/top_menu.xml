@@ -6,13 +6,15 @@
         android:contentDescription="@string/label_themes"
         android:icon="@drawable/baseline_color_lens_24"
         android:title="@string/label_themes"
-        app:showAsAction="always" />
+        app:iconTint="@color/iconColor"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/top_files"
         android:contentDescription="@string/label_file_explorer"
         android:icon="@drawable/baseline_folder_24"
         android:title="@string/label_file_explorer"
-        app:showAsAction="always" />
+        app:iconTint="@color/iconColor"
+        app:showAsAction="ifRoom" />
 
 </menu>

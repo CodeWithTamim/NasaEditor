@@ -3,10 +3,12 @@ package com.nasahacker.nasaeditor.view.activity
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.MenuItem
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.nasahacker.nasaeditor.R
@@ -22,10 +24,12 @@ class PreviewActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
 
+        setContentView(binding.root)
         setupWebView()
         observeViewModel()
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
@@ -125,5 +129,16 @@ class PreviewActivity : AppCompatActivity() {
 
     private fun String.matchesFileTypes(vararg fileTypes: String): Boolean {
         return fileTypes.any { this.endsWith(it, ignoreCase = true) }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressedDispatcher.onBackPressed()
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

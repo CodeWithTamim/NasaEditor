@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.nasahacker.nasaeditor.util.FileUtils
+import com.nasahacker.nasaeditor.util.AppUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -16,9 +16,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val projectNames: LiveData<MutableList<String>> = _projectNames
 
     fun loadProjectList() {
-        if (FileUtils.isPermissionGranted(getApplication())) {
+        if (AppUtils.isPermissionGranted(getApplication())) {
             viewModelScope.launch(Dispatchers.IO) {
-                val projectList = FileUtils.listProjects(getApplication())
+                val projectList = AppUtils.listProjects(getApplication())
                 _projectNames.postValue(
                     projectList?.map { it.name }?.toMutableList() ?: mutableListOf()
                 )
@@ -29,7 +29,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun addProject(projectName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                FileUtils.createProject(getApplication(), projectName)
+                AppUtils.createProject(getApplication(), projectName)
                 _projectNames.postValue(_projectNames.value?.apply { add(projectName) })
             } catch (e: Exception) {
                 //IDK
@@ -40,7 +40,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun deleteProject(context: Context, projectName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            FileUtils.deleteProject(context, projectName)
+            AppUtils.deleteProject(context, projectName)
             loadProjectList()
         }
     }
