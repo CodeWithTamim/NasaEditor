@@ -5,7 +5,6 @@
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-blue?style=for-the-badge&logo=kotlin)
 ![Material Design 3](https://img.shields.io/badge/Material%20Design-3-blue?style=for-the-badge&logo=material-design)
 ![License](https://img.shields.io/badge/License-Apache_2.0-green?style=for-the-badge&logo=open-source-initiative)
-![Stars](https://img.shields.io/github/stars/CodeWithTamim/NasaEditor?style=for-the-badge&logo=star)
 [![Get it on Google Play](https://img.shields.io/badge/Google%20Play-Download-green?style=for-the-badge&logo=google-play)](https://play.google.com/store/apps/details?id=com.nasahacker.nasaeditor&hl=en)
 
 **Nasa Editor** is an open-source, user-friendly mobile code editor designed for developers and enthusiasts to write, edit, and run HTML, CSS, and JavaScript code directly on their Android devices. Whether you're a beginner learning web development or a seasoned coder needing a portable solution, Nasa Editor is your go-to tool for on-the-go coding.
