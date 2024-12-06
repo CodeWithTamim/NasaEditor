@@ -62,7 +62,7 @@ Whether you’re just getting started with web development or are a seasoned pro
    git clone https://github.com/CodeWithTamim/NasaEditor.git
    ```
 
-2. Open the project in Android Studio.
+2. Open the project in Android Latest Studio.
 
 3. Build and run the app on your Android device or emulator.
 
