@@ -8,7 +8,7 @@
     android:padding="24dp"
     tools:context=".view.activity.MainActivity">
 
-    <!-- Welcome Text -->
+
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
@@ -17,11 +17,13 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
         android:text="@string/label_welcome_to_nasa_editor"
-        android:textSize="26sp"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
-    <!-- Subtitle Text -->
+
     <TextView
         android:id="@+id/tv_des"
         android:layout_width="wrap_content"
@@ -30,57 +32,58 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="24dp"
+        android:gravity="center"
         android:text="@string/label_create_a_project_or_open_an_existing_one_to_get_started"
         android:textSize="16sp" />
 
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/anim_not_found"
-        android:layout_below="@id/tv_des"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_below="@id/tv_des"
         android:layout_centerHorizontal="true"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/nothing_found" />
+
     <TextView
         android:id="@+id/tv_noProjects"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label_no_projects_found"
-        android:textSize="18sp"
         android:layout_below="@id/anim_not_found"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        />
+        android:text="@string/label_no_projects_found"
+        android:textSize="18sp" />
 
-    <!-- Existing Projects Title -->
+
     <TextView
         android:id="@+id/tv_projects"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_below="@id/tv_noProjects"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="8dp"
         android:text="@string/label_existing_projects"
         android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
-    <!-- RecyclerView for Existing Projects -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_projects"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@id/tv_projects"
-        tools:listitem="@layout/project_item"
         android:layout_alignParentBottom="true"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginTop="8dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/project_item" />
 
-    <!-- Floating Action Button -->
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_add_project"
         android:layout_width="wrap_content"
@@ -89,6 +92,5 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:text="@string/label_create"
-        app:icon="@drawable/baseline_add_24"
-   />
+        app:icon="@drawable/baseline_add_24" />
 </RelativeLayout>

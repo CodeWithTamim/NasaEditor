@@ -11,8 +11,12 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import com.nasahacker.nasaeditor.R
 import com.nasahacker.nasaeditor.databinding.ActivityPreviewBinding
+import com.nasahacker.nasaeditor.util.AppUtils
 import com.nasahacker.nasaeditor.util.Constants
 import com.nasahacker.nasaeditor.viewmodel.PreviewViewModel
 
@@ -24,8 +28,9 @@ class PreviewActivity : AppCompatActivity() {
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
         setContentView(binding.root)
+        AppUtils.applyInsetsToView(binding.main)
         setupWebView()
         observeViewModel()
         setSupportActionBar(binding.toolbar)

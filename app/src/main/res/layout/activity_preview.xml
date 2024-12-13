@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:id="@+id/tv_website_title"
-            android:text="Website Title" />
+            android:text="@string/label_website_title" />
     </LinearLayout>
 
     <WebView

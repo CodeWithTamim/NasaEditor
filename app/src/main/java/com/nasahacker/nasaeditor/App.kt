@@ -2,12 +2,13 @@ package com.nasahacker.nasaeditor
 
 import android.app.Application
 import android.content.Context
+import com.google.android.material.color.DynamicColors
 import com.tencent.mmkv.MMKV
 
-class NasaApplication : Application() {
+class App : Application() {
     companion object
     {
-        lateinit var instance : NasaApplication
+        lateinit var instance : App
     }
 
     override fun attachBaseContext(base: Context?) {
@@ -17,5 +18,6 @@ class NasaApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         MMKV.initialize(this)
+        DynamicColors.applyToActivitiesIfAvailable(instance)
     }
 }

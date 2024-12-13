@@ -27,8 +27,8 @@ class CodeEditorView : AppCompatEditText {
     private var stringColor: Int = 0
     private var numberColor: Int = 0
     private var commentColor: Int = 0
-
-    private var currentTheme: Theme = Theme.VS_CODE // Default theme
+    // Default theme VS code
+    private var currentTheme: Theme = Theme.VS_CODE
 
     constructor(context: Context) : super(context) {
         init(context)
@@ -75,11 +75,13 @@ class CodeEditorView : AppCompatEditText {
         currentTheme = theme
         setThemeColors(context, theme)
         // Re-apply syntax highlighting with the new theme
-        val text = text // Save the current text
+        // Save the current text
+        val text = text
         text?.let {
             highlightSyntax(it)
         }
-        invalidate() // Refresh the view
+        // Refresh the view
+        invalidate()
     }
 
 
@@ -103,7 +105,8 @@ class CodeEditorView : AppCompatEditText {
                 STRING_TYPE -> R.color.dracula_string
                 NUMBER_TYPE -> R.color.dracula_number
                 COMMENT_TYPE -> R.color.dracula_comment
-                else -> R.color.black // Default fallback
+                // Default fallback
+                else -> R.color.black
             }
 
             Theme.VS_CODE -> when (colorType) {
@@ -125,7 +128,8 @@ class CodeEditorView : AppCompatEditText {
                 STRING_TYPE -> R.color.monokai_string
                 NUMBER_TYPE -> R.color.monokai_number
                 COMMENT_TYPE -> R.color.monokai_comment
-                else -> R.color.black // Default fallback
+                // Default fallback
+                else -> R.color.black
             }
 
             Theme.SOLARIZED_DARK -> when (colorType) {
@@ -136,7 +140,8 @@ class CodeEditorView : AppCompatEditText {
                 STRING_TYPE -> R.color.solarized_dark_string
                 NUMBER_TYPE -> R.color.solarized_dark_number
                 COMMENT_TYPE -> R.color.solarized_dark_comment
-                else -> R.color.black // Default fallback
+                // Default fallback
+                else -> R.color.black
             }
 
             Theme.SOLARIZED_LIGHT -> when (colorType) {
@@ -147,7 +152,8 @@ class CodeEditorView : AppCompatEditText {
                 STRING_TYPE -> R.color.solarized_light_string
                 NUMBER_TYPE -> R.color.solarized_light_number
                 COMMENT_TYPE -> R.color.solarized_light_comment
-                else -> R.color.black // Default fallback
+                // Default fallback
+                else -> R.color.black
             }
 
             Theme.OCEANIC_NEXT -> when (colorType) {
@@ -158,7 +164,8 @@ class CodeEditorView : AppCompatEditText {
                 STRING_TYPE -> R.color.oceanic_next_string
                 NUMBER_TYPE -> R.color.oceanic_next_number
                 COMMENT_TYPE -> R.color.oceanic_next_comment
-                else -> R.color.black // Default fallback
+                // Default fallback
+                else -> R.color.black
             }
         }
         return ContextCompat.getColor(context, colorResId)

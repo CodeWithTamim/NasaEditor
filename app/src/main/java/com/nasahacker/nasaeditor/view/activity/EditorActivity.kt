@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
@@ -35,7 +36,9 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContentView(binding.root)
+        AppUtils.applyInsetsToView(binding.main)
         initialize()
         setupObservers()
         setupListeners()
@@ -68,6 +71,7 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
                 onBackPressedDispatcher.onBackPressed()  // Perform back action
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -271,7 +275,7 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
-        inflater.inflate(R.menu.top_menu, menu)
+        inflater.inflate(R.menu.editor_menu, menu)
         return true
     }
 
@@ -286,6 +290,4 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
             }
         }
     }
-
-
 }

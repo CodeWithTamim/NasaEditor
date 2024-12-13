@@ -1,14 +1,17 @@
 package com.nasahacker.nasaeditor.util
 
 object Constants {
+
     /**
-     * Folder Names
+     * Folder Names used in the app.
      */
     const val APP_FOLDER_NAME = "Nasa Editor"
     const val PROJECTS_FOLDER_NAME = "projects"
+
     /**
-     * File extensions
+     * File extensions supported by the app for different file types.
      */
+
     // HTML, CSS, JS, and Text file types
     const val HTML_FILE = ".html"
     const val CSS_FILE = ".css"
@@ -45,14 +48,19 @@ object Constants {
     const val TIFF_FILE = ".tiff"
     const val ICO_FILE = ".ico"
 
-    const val FILE_PROVIDER = ".fileprovider"
     /**
-     * Intent constants
+     * FileProvider URI suffix used in the app.
+     */
+    const val FILE_PROVIDER = ".fileprovider"
+
+    /**
+     * Intent constants for passing data between activities.
      */
     const val PROJECT_NAME = "project_name"
     const val FILE_URI = "file_uri"
+
     /**
-     * Type Constants
+     * Type Constants for different programming constructs.
      */
     const val HTML_TAG = "html_tag"
     const val CSS_PROPERTY = "css_property"
