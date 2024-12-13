@@ -11,8 +11,8 @@ android {
         applicationId = "com.nasahacker.nasaeditor"
         minSdk = 21
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.0.4-beta"
+        versionCode = 6
+        versionName = "1.0.5-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,7 +49,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation(libs.mmkv)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.lottie)
