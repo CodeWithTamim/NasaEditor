@@ -52,6 +52,8 @@ dependencies {
     implementation(libs.mmkv)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation (libs.lottie)
+    implementation(libs.lottie)
+    implementation(libs.sdp.android)
+    implementation(libs.ssp.android)
 
 }

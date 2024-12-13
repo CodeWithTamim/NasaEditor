@@ -30,7 +30,7 @@
             android:background="@null"
             android:gravity="top"
             android:hint="@string/label_start_writing_your_code"
-            android:padding="15dp"
+            android:padding="@dimen/_10sdp"
             app:layout_constraintBottom_toTopOf="@id/btnPreview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:text="@string/label_preview"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -51,11 +51,11 @@
     <!-- File Explorer Drawer -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/fileExplorer"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/_230sdp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-       android:layout_marginHorizontal="4dp"
-        android:layout_marginTop="50dp"
+       android:layout_marginHorizontal="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_40sdp"
         android:orientation="vertical"
         app:cardCornerRadius="10dp">
 
@@ -77,7 +77,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/_8sdp"
                     android:text="@string/label_file_explorer" />
                 <ImageView
                     android:id="@+id/addAsset"
@@ -86,7 +86,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_gravity="center"
                     android:layout_toStartOf="@id/addFile"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/_8sdp"
                     android:visibility="visible"
                     android:clickable="true"
                     android:focusable="true"
@@ -99,7 +99,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/_8sdp"
                     android:clickable="true"
                     android:focusable="true"
                     android:background="?attr/selectableItemBackgroundBorderless"

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/selectableItemBackground"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/_18sdp"
+    android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:layout_marginHorizontal="20dp"
     android:orientation="horizontal">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/_8sdp"
         android:src="@drawable/baseline_folder_24" />
 
     <TextView
@@ -21,6 +21,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="@dimen/_8sdp"
         tools:text="Project Name" />
 </LinearLayout>

@@ -20,7 +20,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="@string/label_welcome_to_nasa_editor"
-        android:textSize="22sp"
+        android:textSize="@dimen/_16ssp"
         android:textStyle="bold" />
 
 
@@ -31,16 +31,17 @@
         android:layout_below="@id/tv_title"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="24dp"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
         android:gravity="center"
         android:text="@string/label_create_a_project_or_open_an_existing_one_to_get_started"
-        android:textSize="16sp" />
+        android:textSize="@dimen/_12ssp" />
 
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/anim_not_found"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="@dimen/_150sdp"
         android:layout_below="@id/tv_des"
         android:layout_centerHorizontal="true"
         app:lottie_autoPlay="true"
@@ -53,9 +54,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/anim_not_found"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/_18sdp"
         android:text="@string/label_no_projects_found"
-        android:textSize="18sp" />
+        android:textSize="@dimen/_12ssp" />
 
 
     <TextView
@@ -65,9 +66,9 @@
         android:layout_below="@id/tv_noProjects"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:text="@string/label_existing_projects"
-        android:textSize="20sp"
+        android:textSize="@dimen/_18sdp"
         android:textStyle="bold"
         android:visibility="gone" />
 
@@ -78,7 +79,7 @@
         android:layout_height="0dp"
         android:layout_below="@id/tv_projects"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/_4sdp"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/project_item" />
@@ -90,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/_8sdp"
         android:text="@string/label_create"
         app:icon="@drawable/baseline_add_24" />
 </RelativeLayout>

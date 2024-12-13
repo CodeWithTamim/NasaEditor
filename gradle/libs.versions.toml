@@ -12,6 +12,8 @@ material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 mmkv = "2.0.1"
+sdpAndroid = "1.1.1"
+sspAndroid = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,6 +27,8 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
+sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }
+ssp-android = { module = "com.intuit.ssp:ssp-android", version.ref = "sspAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

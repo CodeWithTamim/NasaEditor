@@ -21,8 +21,8 @@
 
         <ImageView
             android:id="@+id/ic_website_ic"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
             android:layout_margin="8dp"
             android:src="@drawable/file_ic"
             app:tint="@android:color/transparent" />

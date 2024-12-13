@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -86,7 +87,6 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
             binding.edtCode.setText(content)
         }
     }
-
     private fun setupListeners() {
         binding.addFile.setOnClickListener { showCreateFileDialog() }
         binding.btnPreview.setOnClickListener { previewFile() }
@@ -112,22 +112,44 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
             }
             true
         }
+
         if (currentFile.isEmpty()) {
             binding.edtCode.hint = getString(R.string.label_please_select_or_create_a_file)
             binding.edtCode.isEnabled = false
         }
 
+        // Ensure Preview button visibility is updated
+        updatePreviewButtonVisibility()
+
         binding.edtCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                saveFile()  // Save on every text change
+                saveFile() // Save on every text change
             }
         })
+    }
 
+    private fun updatePreviewButtonVisibility() {
+        // show the preview button only if the current file has a .html extension
+        binding.btnPreview.isVisible = currentFile.endsWith(".html", ignoreCase = true)
+    }
+
+    override fun onClick(data: String) {
+        currentFile = data
+        projectName?.let {
+            editorViewModel.loadFileContent(this, it, data)
+            Toast.makeText(this, getString(R.string.label_opened_file, data), Toast.LENGTH_SHORT).show()
+            binding.edtCode.hint = getString(R.string.hint_start_writing_your_code_on, data)
+            binding.edtCode.isEnabled = true
+            if (binding.drawerLayout.isOpen) {
+                binding.drawerLayout.close()
+            }
+            // Update Preview button visibility when a file is selected
+            updatePreviewButtonVisibility()
+        }
     }
 
     private fun showThemeChoosingDialog() {
@@ -243,19 +265,7 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
         }
     }
 
-    override fun onClick(data: String) {
-        currentFile = data
-        projectName?.let {
-            editorViewModel.loadFileContent(this, it, data)
-            Toast.makeText(this, getString(R.string.label_opened_file, data), Toast.LENGTH_SHORT)
-                .show()
-            binding.edtCode.hint = getString(R.string.hint_start_writing_your_code_on, data)
-            binding.edtCode.isEnabled = true
-            if (binding.drawerLayout.isOpen) {
-                binding.drawerLayout.close()
-            }
-        }
-    }
+
 
     override fun onLongPress(data: String) {
         MaterialAlertDialogBuilder(this)
@@ -281,11 +291,12 @@ class EditorActivity : AppCompatActivity(), OnClickListener<String> {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+        if (requestCode == 2 && resultCode == RESULT_OK) {
             data?.data?.let { uri ->
                 projectName?.let { name ->
                     editorViewModel.copyFile(this, uri, name)
-                    editorViewModel.loadProjectFiles(this, name) // Reload files after import
+                    // Reload files after import
+                    editorViewModel.loadProjectFiles(this, name)
                 }
             }
         }

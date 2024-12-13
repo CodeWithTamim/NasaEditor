@@ -9,7 +9,7 @@
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:src="@drawable/file_ic"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/_8sdp"
         android:id="@+id/iv_file_icon"
         app:tint="@android:color/transparent" />
     <TextView
