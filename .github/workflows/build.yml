@@ -1,44 +1,78 @@
-name: Build and Publish APK with Tag
+name: Build & deploy Android app for an environment
 
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag (e.g., v1.0.0)'
+        required: true
+      release_description:
+        description: 'Release description (optional)'
+        required: false
+        default: ''
 
 jobs:
-  build:
+  deployAndroid:
+    permissions: write-all
+    name: Build & deploy Android release
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - name: Set up OpenJDK 11
-        uses: actions/setup-java@v2
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
-          java-version: '11'
-          distribution: 'zulu'
+          java-version: "21.x"
+          cache: 'gradle'
+          distribution: 'adopt'
+        id: java
 
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v2
+      - name: Retrieve base64 keystore and decode it to a file
+        id: write_file
+        uses: timheuer/base64-to-file@v1.2
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+          fileName: "android-keystore.jks"
+          fileDir: "${{ github.workspace }}/"
+          encodedString: ${{ secrets.KEYSTORE_FILE_BASE64 }}
 
-      - name: Build APK
-        run: ./gradlew assembleRelease
-
-      - name: Create a tag
-        run: |
-          TAG_NAME="v$(date +'%Y.%m.%d')"
-          git tag $TAG_NAME
-          git push origin $TAG_NAME
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: app/build/outputs/apk/release/app-release.apk
+      - name: Create keystore.properties file
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          KEYSTORE_PROPERTIES_PATH: ${{ github.workspace }}/key.properties
+        run: |
+          echo "storeFile=${{ github.workspace }}/android-keystore.jks" > $KEYSTORE_PROPERTIES_PATH
+          echo "keyAlias=${{ secrets.KEYSTORE_KEY_ALIAS }}" >> $KEYSTORE_PROPERTIES_PATH
+          echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> $KEYSTORE_PROPERTIES_PATH
+          echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> $KEYSTORE_PROPERTIES_PATH
+
+      - name: Create Android release
+        run: |
+          ./gradlew app:assembleRelease
+
+      - name: Generate release description if not provided
+        id: generate_description
+        run: |
+          if [ -z "${{ github.event.inputs.release_description }}" ]; then
+            echo "description=$(git log --pretty=format:'- %h %s (%an)' $(git describe --tags --abbrev=0)..HEAD)" >> $GITHUB_ENV
+          else
+            echo "description=${{ github.event.inputs.release_description }}" >> $GITHUB_ENV
+          fi
+
+      - name: Create or update GitHub release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          tag_name: ${{ github.event.inputs.release_tag }}
+          release_name: ${{ github.event.inputs.release_tag }}
+          body: ${{ env.description }}
+          draft: false
+          prerelease: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload to GitHub release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: app/build/outputs/apk/release/*.apk
+          asset_name: app-release.apk
+          asset_content_type: application/vnd.android.package-archive
