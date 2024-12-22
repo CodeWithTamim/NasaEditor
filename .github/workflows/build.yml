@@ -52,5 +52,6 @@ jobs:
             app/build/outputs/apk/release/convertit_armeabi-v7a_release.apk
             app/build/outputs/apk/release/convertit_x86_64_release.apk
             app/build/outputs/apk/release/convertit_x86_release.apk
+            app/build/outputs/apk/release/convertit_universal_release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
