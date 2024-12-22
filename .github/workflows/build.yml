@@ -22,11 +22,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           java-version: "21.x"
-          cache: 'gradle'
           distribution: 'adopt'
 
       - name: Retrieve base64 keystore and decode it to a file
@@ -43,6 +52,15 @@ jobs:
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> key.properties
           echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> key.properties
 
+      - name: Cache build outputs
+        uses: actions/cache@v3
+        with:
+          path: |
+            app/build
+          key: build-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'app/build.gradle') }}
+          restore-keys: |
+            build-${{ runner.os }}-
+
       - name: Build Android release APK
         run: ./gradlew app:assembleRelease
 
@@ -55,7 +73,7 @@ jobs:
           prerelease: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload APK as Artifact
+      - name: Upload APK to release using upload-release-action
         uses: svenstaro/upload-release-action@v2
         with:
           file: app/build/outputs/apk/release/app-release.apk
