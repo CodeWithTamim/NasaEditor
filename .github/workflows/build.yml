@@ -46,6 +46,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ github.event.inputs.tag_name }}
           files: |
             app/build/outputs/apk/release/convertit_arm64-v8a_release.apk
             app/build/outputs/apk/release/convertit_armeabi-v7a_release.apk
