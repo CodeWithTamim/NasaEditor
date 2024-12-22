@@ -75,7 +75,7 @@ jobs:
           status: inProgress
           releaseName: ${{ github.event.inputs.release_name }}
           inAppUpdatePriority: 2
-          userFraction: 0.33
+          userFraction: 1
           whatsNewDirectory: distribution
           mappingFile: app/build/outputs/mapping/release/mapping.txt
           debugSymbols: app/intermediates/merged_native_libs/release/out/lib
