@@ -52,15 +52,6 @@ jobs:
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" >> key.properties
           echo "keyPassword=${{ secrets.KEYSTORE_KEY_PASSWORD }}" >> key.properties
 
-      - name: Cache build outputs
-        uses: actions/cache@v3
-        with:
-          path: |
-            app/build
-          key: build-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', 'app/build.gradle') }}
-          restore-keys: |
-            build-${{ runner.os }}-
-
       - name: Build Android release APK
         run: ./gradlew app:assembleRelease
 
