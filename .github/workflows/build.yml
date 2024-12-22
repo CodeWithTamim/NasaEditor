@@ -10,6 +10,9 @@ on:
         description: "Release name (optional)"
         required: false
         default: ""
+      description:
+        description: "What's new in this release (Release Notes)"
+        required: true
 
 jobs:
   deployAndroid:
@@ -38,12 +41,18 @@ jobs:
           fileName: "android_keystore.jks"
           encodedString: ${{ secrets.KEYSTORE_FILE_BASE64 }}
 
-      - name: Build APK
+      - name: Build APK and AAB
         run: |
           chmod 755 gradlew
-          ./gradlew assembleRelease -Pandroid.injected.signing.store.file=${{ steps.android_keystore.outputs.filePath }} -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.KEYSTORE_KEY_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          ./gradlew assembleRelease bundleRelease -Pandroid.injected.signing.store.file=${{ steps.android_keystore.outputs.filePath }} -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.KEYSTORE_KEY_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.KEYSTORE_KEY_PASSWORD }}
 
-      - name: Create GitHub Release
+      - name: Create 'whatsnew' Directory and Add Release Notes
+        run: |
+          mkdir -p distribution/whatsnew
+          echo "${{ github.event.inputs.description }}" > distribution/whatsnew/whatsnew-en-US
+
+
+      - name: Upload APKs to GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.event.inputs.tag_name }}
@@ -55,3 +64,18 @@ jobs:
             app/build/outputs/apk/release/convertit_universal_release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload AAB to Play Store
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+          packageName: com.nasahacker.convertit
+          releaseFiles: app/build/outputs/bundle/release/app-release.aab
+          track: production
+          status: inProgress
+          releaseName: ${{ github.event.inputs.release_name }}
+          inAppUpdatePriority: 2
+          userFraction: 0.33
+          whatsNewDirectory: distribution
+          mappingFile: app/build/outputs/mapping/release/mapping.txt
+          debugSymbols: app/intermediates/merged_native_libs/release/out/lib
