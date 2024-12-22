@@ -68,7 +68,7 @@ android {
             .forEach { output ->
                 val abi = output.getFilter("ABI") ?: "universal"
 
-                output.outputFileName = "convertit_${abi}.apk"
+                output.outputFileName = "convertit_${abi}_release.apk"
 
                 versionCodes[abi]?.let {
                     output.versionCodeOverride = it
