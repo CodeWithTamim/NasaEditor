@@ -37,6 +37,47 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
+
+    val abiFilterList = (properties["ABI_FILTERS"] as? String)?.split(';')
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            if (!abiFilterList.isNullOrEmpty()) {
+                include(*abiFilterList.toTypedArray())
+            } else {
+                include(
+                    "arm64-v8a",
+                    "armeabi-v7a",
+                    "x86_64",
+                    "x86"
+                )
+            }
+            isUniversalApk = abiFilterList.isNullOrEmpty()
+        }
+    }
+
+
+    val versionCodes =
+        mapOf("armeabi-v7a" to 4, "arm64-v8a" to 4, "x86" to 4, "x86_64" to 4, "universal" to 4)
+
+    android.applicationVariants.all {
+        val variant = this
+        variant.outputs
+            .map { it as com.android.build.gradle.internal.api.ApkVariantOutputImpl }
+            .forEach { output ->
+                val abi = output.getFilter("ABI") ?: "universal"
+
+                output.outputFileName = "convertit_${abi}.apk"
+
+                versionCodes[abi]?.let {
+                    output.versionCodeOverride = it
+                }
+            }
+    }
+
+
+
 }
 
 dependencies {
