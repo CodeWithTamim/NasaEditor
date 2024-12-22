@@ -72,10 +72,7 @@ jobs:
           packageName: com.nasahacker.convertit
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: production
-          status: inProgress
           releaseName: ${{ github.event.inputs.release_name }}
-          inAppUpdatePriority: 2
-          userFraction: 1.0
           whatsNewDirectory: distribution
           mappingFile: app/build/outputs/mapping/release/mapping.txt
           debugSymbols: app/intermediates/merged_native_libs/release/out/lib
