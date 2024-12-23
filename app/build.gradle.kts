@@ -16,7 +16,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildFeatures {
         viewBinding = true
     }
@@ -31,12 +30,10 @@ android {
             )
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
@@ -60,12 +57,28 @@ android {
         }
     }
 
-    // Ensure all outputs have the same version code and properly named files
-    applicationVariants.all {
-        outputs.forEach { output ->
-            val abi = output.getFilter("ABI") ?: "universal"
-            output.outputFileName = "convertit_${abi}_release.apk"
-        }
+    val defaultVersionCode = defaultConfig.versionCode
+    val versionCodes = mapOf(
+        "armeabi-v7a" to defaultVersionCode,
+        "arm64-v8a" to defaultVersionCode,
+        "x86" to defaultVersionCode,
+        "x86_64" to defaultVersionCode,
+        "universal" to defaultVersionCode
+    )
+
+    android.applicationVariants.all {
+        val variant = this
+        variant.outputs
+            .map { it as com.android.build.gradle.internal.api.ApkVariantOutputImpl }
+            .forEach { output ->
+                val abi = output.getFilter("ABI") ?: "universal"
+
+                output.outputFileName = "convertit_${abi}_release.apk"
+
+                versionCodes[abi]?.let {
+                    output.versionCodeOverride = it
+                }
+            }
     }
 }
 
