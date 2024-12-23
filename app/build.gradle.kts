@@ -16,6 +16,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildFeatures {
         viewBinding = true
     }
@@ -30,10 +31,12 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
@@ -57,31 +60,16 @@ android {
         }
     }
 
-
-    val versionCodes =
-        mapOf("armeabi-v7a" to 4, "arm64-v8a" to 4, "x86" to 4, "x86_64" to 4, "universal" to 4)
-
-    android.applicationVariants.all {
-        val variant = this
-        variant.outputs
-            .map { it as com.android.build.gradle.internal.api.ApkVariantOutputImpl }
-            .forEach { output ->
-                val abi = output.getFilter("ABI") ?: "universal"
-
-                output.outputFileName = "convertit_${abi}_release.apk"
-
-                versionCodes[abi]?.let {
-                    output.versionCodeOverride = it
-                }
-            }
+    // Ensure all outputs have the same version code and properly named files
+    applicationVariants.all {
+        outputs.forEach { output ->
+            val abi = output.getFilter("ABI") ?: "universal"
+            output.outputFileName = "convertit_${abi}_release.apk"
+        }
     }
-
-
-
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -91,9 +79,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.lottie)
     implementation(libs.sdp.android)
     implementation(libs.ssp.android)
-
 }
