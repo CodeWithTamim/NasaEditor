@@ -35,7 +35,7 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: Decode Keystore
-        uses: timheuer/base64-to-file@v1
+        uses: timheuer/base64-to-file@v1.2.4
         id: android_keystore
         with:
           fileName: "android_keystore.jks"
