@@ -16,7 +16,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildFeatures {
         viewBinding = true
     }
@@ -31,12 +30,10 @@ android {
             )
         }
     }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
@@ -60,34 +57,31 @@ android {
         }
     }
 
-    val defaultVersionCode = defaultConfig.versionCode
-    val versionCodes = mapOf(
-        "armeabi-v7a" to defaultVersionCode,
-        "arm64-v8a" to defaultVersionCode,
-        "x86" to defaultVersionCode,
-        "x86_64" to defaultVersionCode,
-        "universal" to defaultVersionCode
-    )
 
-    // Correcting ABI filters and output file names
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            // Get ABI or default to "universal"
-            val abi = output.filters.find { it.name == "abi" }?.identifier ?: "universal"
+    val versionCodes =
+        mapOf("armeabi-v7a" to 13, "arm64-v8a" to 13, "x86" to 13, "x86_64" to 13, "universal" to 13)
 
-            // Set the output file name based on ABI
-            val outputFile = output.outputFile
-            output.outputFileName = "convertit_${abi}_release.apk"
+    android.applicationVariants.all {
+        val variant = this
+        variant.outputs
+            .map { it as com.android.build.gradle.internal.api.ApkVariantOutputImpl }
+            .forEach { output ->
+                val abi = output.getFilter("ABI") ?: "universal"
 
-            // Set version code override based on ABI
-            versionCodes[abi]?.let {
-                output.versionCodeOverride = it
+                output.outputFileName = "convertit_${abi}_release.apk"
+
+                versionCodes[abi]?.let {
+                    output.versionCodeOverride = it
+                }
             }
-        }
     }
+
+
+
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -97,7 +91,9 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.lottie)
     implementation(libs.sdp.android)
     implementation(libs.ssp.android)
+
 }
