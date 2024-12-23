@@ -11,8 +11,8 @@ android {
         applicationId = "com.nasahacker.nasaeditor"
         minSdk = 21
         targetSdk = 35
-        versionCode = 12
-        versionName = "1.0.12-beta"
+        versionCode = 13
+        versionName = "1.0.13-beta"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
