@@ -46,11 +46,10 @@ jobs:
           chmod 755 gradlew
           ./gradlew assembleRelease bundleRelease -Pandroid.injected.signing.store.file=${{ steps.android_keystore.outputs.filePath }} -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.KEYSTORE_KEY_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.KEYSTORE_KEY_PASSWORD }}
 
-      - name: Create 'whatsnew' Directory and Add Release Notes
+      - name: Create 'whatsnew' Directory and Add Localized Release Notes
         run: |
           mkdir -p distribution/whatsnew
           echo "${{ github.event.inputs.description }}" > distribution/whatsnew/whatsnew-en-US
-
 
       - name: Upload APKs to GitHub Release
         uses: softprops/action-gh-release@v1
@@ -73,6 +72,4 @@ jobs:
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: production
           releaseName: ${{ github.event.inputs.release_name }}
-          whatsNewDirectory: distribution
-          mappingFile: app/build/outputs/mapping/release/mapping.txt
-          debugSymbols: app/intermediates/merged_native_libs/release/out/lib
+          whatsNewDirectory: distribution/whatsnew
