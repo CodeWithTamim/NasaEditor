@@ -41,10 +41,6 @@ jobs:
           fileName: "android_keystore.jks"
           encodedString: ${{ secrets.KEYSTORE_FILE_BASE64 }}
 
-      - name: Clear Build Cache
-        run: |
-          rm -rf app/build
-
       - name: Build APK and AAB
         run: |
           chmod 755 gradlew
